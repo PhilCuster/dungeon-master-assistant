@@ -1,4 +1,10 @@
-# DungeonMasterAssistant
+# Dungeon Master Assistant
+
+A project by [Phil Custer](https://philcuster.com)
+
+## Purpose
+
+I am always thinking of new tools that I would like to have as a Dungeon Master and this suite will serve as a collection of such tools.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
