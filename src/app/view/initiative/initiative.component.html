@@ -1,0 +1,6 @@
+<button mat-button (click)="calculateInitiative()">Calculate Initiative</button>
+<mat-card class="initiative-cards" *ngFor="let entity of party | orderBy: ['-score']">
+  <h2>{{entity.name}}</h2>
+  <p>Score: {{entity.score}}</p>
+</mat-card>
+
