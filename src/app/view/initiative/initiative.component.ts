@@ -4,43 +4,53 @@ import { InitiativeEntity } from './../../model/initiative-entity.model';
 @Component({
   selector: 'app-initiative',
   templateUrl: './initiative.component.html',
-  styleUrls: ['./initiative.component.css']
+  styleUrls: ['./initiative.component.scss']
 })
 export class InitiativeComponent implements OnInit {
 
-  // TODO: This should not be hard-coded...
-  party: InitiativeEntity[] = [
-    {
-      name: 'Fighter',
-      modifier: 2,
-      player: true,
-      score: 10,
-    },
-    {
-      name: 'Wizard',
-      modifier: 1,
-      player: true,
-      score: 10,
-    },
-    {
-      name: 'Rogue',
-      modifier: 4,
-      player: true,
-      score: 10,
-    },
-    {
-      name: 'Orc Warriors',
-      modifier: 1,
-      player: false,
-      score: 10,
-    },
-    {
-      name: 'Orc Chief',
-      modifier: 3,
-      player: false,
-      score: 10,
-    },
-  ];
+  party: InitiativeEntity[] = [];
+
+  entityName: string;
+  entityInitMod: number;
+  entityIsPlayer: boolean;
+
+  showScores = false;
+
+  addEntity() {
+    if (!this.containsName(this.entityName)) {
+      const newEntity: InitiativeEntity = {
+        name: this.entityName,
+        modifier: this.entityInitMod,
+        player: this.entityIsPlayer,
+        score: 10,
+      };
+
+      this.party.push(newEntity);
+      this.cancelAddEntity();
+    }
+    // TODO: Notify user for duplicate name!
+  }
+
+  cancelAddEntity() {
+    this.entityName = '';
+    this.entityInitMod = 0;
+    this.entityIsPlayer = false;
+  }
+
+  deleteEntity(entity: InitiativeEntity) {
+    const index = this.party.indexOf(entity);
+    if (index !== -1) { this.party.splice(index, 1); }
+    const newParty = this.party.slice();
+    // More change detection shenanigans.
+    this.party = newParty;
+  }
+
+  private containsName(name: string): boolean {
+    for (const entity of this.party) {
+      if (entity.name === name) { return true; }
+    }
+    return false;
+  }
 
   private calculateInitiative() {
     // Create a new party to facilitate change detection.

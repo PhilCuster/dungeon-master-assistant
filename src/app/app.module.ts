@@ -1,15 +1,21 @@
 // Angular Stuff
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { NgModule, isDevMode } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatSidenavMenuModule } from 'mat-sidenav-menu';
 
 // Material Components
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -55,14 +61,20 @@ const routes: Routes = [
       { enableTracing: isDevMode() }
     ),
 
+    BrowserAnimationsModule,
     BrowserModule,
+    FormsModule,
     MatSidenavMenuModule,
     NoopAnimationsModule,
+    FlexLayoutModule,
 
     // Material Components
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatSidenavModule,
     MatToolbarModule,
   ],

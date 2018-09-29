@@ -1,0 +1,47 @@
+.initiative-cards {
+  margin: 10px;
+
+  h2 {
+    margin: 0px;
+  }
+}
+
+.init-tracker {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.init-controls {
+  margin: 10px;
+
+  mat-expansion-panel {
+    margin-top: 20px;
+  }
+
+  mat-checkbox {
+    margin: 10px;
+  }
+}
+
+.add-entity-form-buttons {
+    button {
+      margin: 10px;
+    }
+}
+
+.player-entity {
+  h2 {
+    color: #00b359;
+  }
+}
+
+.enemy-entity {
+  h2 {
+    color: #800000;
+  }
+}
+
+.empty-party {
+  margin: 10px;
+  color: grey;
+}
