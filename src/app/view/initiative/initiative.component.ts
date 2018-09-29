@@ -45,14 +45,7 @@ export class InitiativeComponent implements OnInit {
     this.party = newParty;
   }
 
-  private containsName(name: string): boolean {
-    for (const entity of this.party) {
-      if (entity.name === name) { return true; }
-    }
-    return false;
-  }
-
-  private calculateInitiative() {
+  calculateInitiative() {
     // Create a new party to facilitate change detection.
     const party: InitiativeEntity[] = [];
     for (const entity of this.party) {
@@ -61,6 +54,13 @@ export class InitiativeComponent implements OnInit {
       party.push(entity);
     }
     this.party = party;
+  }
+
+  private containsName(name: string): boolean {
+    for (const entity of this.party) {
+      if (entity.name === name) { return true; }
+    }
+    return false;
   }
 
   constructor() { }

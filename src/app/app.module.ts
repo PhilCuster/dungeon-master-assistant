@@ -58,7 +58,7 @@ const routes: Routes = [
     // Routing Setup
     RouterModule.forRoot(
       routes,
-      { enableTracing: isDevMode() }
+      { enableTracing: false } // Enable for debugging.
     ),
 
     BrowserAnimationsModule,
