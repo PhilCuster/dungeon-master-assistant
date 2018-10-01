@@ -8,11 +8,33 @@ import { InitiativeEntity } from './../../model/initiative-entity.model';
 })
 export class InitiativeComponent implements OnInit {
 
-  party: InitiativeEntity[] = [];
+  party: InitiativeEntity[] = [
+    {
+      name: 'Player 1',
+      modifier: 3,
+      player: true,
+      advantage: false,
+    },
+    {
+      name: 'Player 2',
+      modifier: 2,
+      player: true,
+      advantage: true,
+    },
+    {
+      name: 'Enemy 1',
+      modifier: 4,
+      player: false,
+      advantage: false,
+    },
+  ];
 
   entityName: string;
   entityInitMod: number;
   entityIsPlayer: boolean;
+  entityHasAdvantage: boolean;
+
+  lowestScore: number;
 
   showScores = false;
 
@@ -23,6 +45,7 @@ export class InitiativeComponent implements OnInit {
         modifier: this.entityInitMod,
         player: this.entityIsPlayer,
         score: 10,
+        advantage: this.entityHasAdvantage,
       };
 
       this.party.push(newEntity);
@@ -35,6 +58,7 @@ export class InitiativeComponent implements OnInit {
     this.entityName = '';
     this.entityInitMod = 0;
     this.entityIsPlayer = false;
+    this.entityHasAdvantage = false;
   }
 
   deleteEntity(entity: InitiativeEntity) {
@@ -48,12 +72,30 @@ export class InitiativeComponent implements OnInit {
   calculateInitiative() {
     // Create a new party to facilitate change detection.
     const party: InitiativeEntity[] = [];
+    this.lowestScore = Number.MAX_SAFE_INTEGER;
     for (const entity of this.party) {
       // TODO: This works for now in terms of random.
-      entity.score = Math.floor((Math.random() * 20) + 1) + entity.modifier;
+      if (!entity.advantage) {
+        entity.score = Math.floor((Math.random() * 20) + 1) + entity.modifier;
+      } else {
+        const roll1 = Math.floor((Math.random() * 20) + 1) + entity.modifier;
+        const roll2 = Math.floor((Math.random() * 20) + 1) + entity.modifier;
+        entity.score = Math.max(roll1, roll2);
+      }
+      if (entity.score < this.lowestScore) {
+        this.lowestScore = entity.score;
+      }
       party.push(entity);
     }
     this.party = party;
+  }
+
+  delayTurn(entity: InitiativeEntity) {
+    this.deleteEntity(entity);
+    entity.score = --this.lowestScore;
+    const newParty = this.party.slice();
+    newParty.push(entity);
+    this.party = newParty;
   }
 
   private containsName(name: string): boolean {

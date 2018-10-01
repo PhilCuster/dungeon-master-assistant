@@ -3,4 +3,5 @@ export class InitiativeEntity {
     modifier: number;
     player: boolean;
     score?: number;
+    advantage: boolean;
 }

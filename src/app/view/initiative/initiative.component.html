@@ -1,46 +1,79 @@
-<div fxLayout="column" fxLayout.md="row" class="init-tracker">
+<div [ngClass.gt-lg]="'big-screen'" fxLayout="column" fxLayout.gt-md="row" class="init-tracker">
   <div fxFlex="50%" class="init-controls">
-    <div flexLayout="row">
+    <div class="init-options" flexLayout="row">
       <button fxFlex="50%" mat-raised-button color="primary" (click)="calculateInitiative()">Calculate Initiative</button>
       <mat-checkbox fxFlex="50%" [(ngModel)]="showScores">Show Rolls</mat-checkbox>
     </div>
-    <mat-expansion-panel>
+    <mat-card class="add-entity-card" fxShow.gt-md fxHide>
+      <mat-card-title>
+        Add a Player or NPC
+      </mat-card-title>
+      <mat-card-content>
+        <!-- Add entity form -->
+        <div fxLayout="column" class="add-entity-form">
+          <mat-form-field>
+            <input [(ngModel)]="entityName" matInput placeholder="Name">
+          </mat-form-field>
+          <mat-form-field>
+            <input [(ngModel)]="entityInitMod" type="number" matInput placeholder="Initiative Modifier">
+          </mat-form-field>
+          <div fxLayout="row">
+            <mat-checkbox [(ngModel)]="entityIsPlayer">Player</mat-checkbox>
+            <mat-checkbox [(ngModel)]="entityHasAdvantage">Advantage</mat-checkbox>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="end" class="add-entity-form-buttons">
+            <button (click)="addEntity()" fxFlexAlign="end" color="primary" mat-raised-button>Add</button>
+            <button (click)="cancelAddEntity()" fxFlexAlign="end" color="warn" mat-raised-button>Cancel</button>
+          </div>
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div fxFlex="50%">
+    <mat-card class="initiative-cards" [ngClass]="{'player-entity': entity.player, 'enemy-entity': !entity.player}"
+      *ngFor="let entity of party | orderBy: ['-score']">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row">
+          <div class="entity-name">{{entity.name}}<span *ngIf="entity.advantage"> *</span></div>
+          <span class="entity-score" *ngIf="showScores">({{entity.score}})</span>
+        </div>
+        <div>
+          <button (click)="delayTurn(entity)" fxFlex="50px" fxFlexAlign="center" color="basic" mat-icon-button>
+            <mat-icon aria-label="Delete">arrow_downward</mat-icon>
+          </button>
+          <button (click)="deleteEntity(entity)" fxFlex="30px" fxFlexAlign="center" color="warn" mat-icon-button>
+            <mat-icon aria-label="Delete">clear</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="empty-party" *ngIf="party.length === 0">
+      Add players or enemies to the party to calculate initiative!
+    </mat-card>
+    <mat-expansion-panel class="add-entity-panel" fxShow fxHide.gt-md>
       <mat-expansion-panel-header>
         <mat-panel-description>
           Add a Player or NPC
         </mat-panel-description>
       </mat-expansion-panel-header>
-
       <!-- Add entity form -->
       <div fxLayout="column" class="add-entity-form">
         <mat-form-field>
           <input [(ngModel)]="entityName" matInput placeholder="Name">
         </mat-form-field>
-        <mat-form-field>
-          <input [(ngModel)]="entityInitMod" type="number" matInput placeholder="Initiative Modifier">
-        </mat-form-field>
-        <mat-checkbox [(ngModel)]="entityIsPlayer">Player</mat-checkbox>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="33%">
+            <input [(ngModel)]="entityInitMod" type="number" matInput placeholder="Initiative Mod">
+          </mat-form-field>
+          <mat-checkbox [(ngModel)]="entityIsPlayer">Player</mat-checkbox>
+          <mat-checkbox [(ngModel)]="entityHasAdvantage">Advantage</mat-checkbox>
+        </div>
         <div fxLayout="row" fxLayoutAlign="end" class="add-entity-form-buttons">
           <button (click)="addEntity()" fxFlexAlign="end" color="primary" mat-raised-button>Add</button>
           <button (click)="cancelAddEntity()" fxFlexAlign="end" color="warn" mat-raised-button>Cancel</button>
         </div>
       </div>
-
     </mat-expansion-panel>
-  </div>
-  <div fxFlex="50%">
-    <mat-card class="initiative-cards" [ngClass]="{'player-entity': entity.player, 'enemy-entity': !entity.player}"
-      *ngFor="let entity of party | orderBy: ['-score']">
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <h2>{{entity.name}}</h2>
-        <button (click)="deleteEntity(entity)" fxFlex="30px" fxFlexAlign="center" color="warn" mat-icon-button>
-          <mat-icon aria-label="Delete">clear</mat-icon>
-        </button>
-      </div>
-      <p *ngIf="showScores">Score: {{entity.score}}</p>
-    </mat-card>
-    <mat-card class="empty-party" *ngIf="party.length === 0">
-      Add players or enemies to the party to calculate initiative!
-    </mat-card>
   </div>
 </div>
