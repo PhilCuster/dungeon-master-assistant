@@ -8,26 +8,7 @@ import { InitiativeEntity } from './../../model/initiative-entity.model';
 })
 export class InitiativeComponent implements OnInit {
 
-  party: InitiativeEntity[] = [
-    {
-      name: 'Player 1',
-      modifier: 3,
-      player: true,
-      advantage: false,
-    },
-    {
-      name: 'Player 2',
-      modifier: 2,
-      player: true,
-      advantage: true,
-    },
-    {
-      name: 'Enemy 1',
-      modifier: 4,
-      player: false,
-      advantage: false,
-    },
-  ];
+  party: InitiativeEntity[] = [];
 
   entityName: string;
   entityInitMod: number;
